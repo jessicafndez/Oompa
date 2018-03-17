@@ -190,21 +190,28 @@ $(document).ready(function() {
         var oompaId = $(this).attr('data-id');
         $('#firstPage').hide();
         $('#secondPage').show();
+        console.log()
         window.history.pushState('page2', 'Title', oompaId);
         loadOompa(oompaId)
     });
 
     function loadOompa(oompaId) {
-        var ooompa = localStorage.getItem("oompaId"+oompaId);
-        if(oompa != null) {
+        var oompa = localStorage.getItem("oompaId"+oompaId);
+        console.log("oo_");
+        console.log(oompa);
+        console.log(oompaId);
+        if((oompa != null) || (oompa != 'undefined')) {
             $.ajax({
                 type     : "GET",
                 cache    : false,
                 url      : 'https://2q2woep105.execute-api.eu-west-1.amazonaws.com/napptilus/oompa-loompas/'+oompaId,
                 success  : function(data) {
-                    oompa =  JSON.stringify(data.results);
+                    console.log(data);
+                    oompa =  JSON.stringify(data);
                     localStorage.setItem("oompaId"+oompaId, oompa);
-                    paintOompa(data.results);
+
+                    console.log("daata: " + data);
+                    paintOompa(data);
                 },         
             });
         }
@@ -215,18 +222,17 @@ $(document).ready(function() {
 
     function paintOompa(oompa) {
         console.log("oompa List");
-        console.log(oompaList);
-        var source = $("#oompa-list-template").html();
+        console.log(oompa);
+        var source = $("#oompa-single-template").html();
         var template = Handlebars.compile(source);
-        var wrapper  = {objects: oompaList};
         Handlebars.registerHelper('ifCond', function(v1, v2, options) {
             if(v1 === v2) {
                 return options.fn(this);
             }
             return options.inverse(this);
         });
-        var html = template(wrapper);
-        $('.oompaContentBox').html(html); 
+        var html = template(oompa);
+        $('#secondPage').html(html); 
     }
 
 });

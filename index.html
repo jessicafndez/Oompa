@@ -5,17 +5,14 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
         
-         <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/solid.js" integrity="sha384-+Ga2s7YBbhOD6nie0DzrZpJes+b2K1xkpKxTFFcx59QmVPaSA8c7pycsNaFwUK6l" crossorigin="anonymous"></script>
-         <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/fontawesome.js" integrity="sha384-7ox8Q2yzO/uWircfojVuCQOZl+ZZBg2D2J5nkpLqzH1HY0C1dHlTKIbpRz/LG23c" crossorigin="anonymous"></script>
-        <link rel="stylesheet" href="css/index.css"/>
-
+        <link rel="stylesheet" href="dist/app.bundle.css"/>
         <script src="dist/app.bundle.js"></script>
     </head>
     <body>
         <nav class="navbar navbar-default">
             <div class="container">
                 <div class="navbar-header">
-                    <a class="navbar-brand" href="#">
+                    <a class="navbar-brand" href="/Oompa">
                         <img alt="Brand" class="img-responsive" 
                         src="public/assets/images/logo-umpa-loompa.png">
                     </a>
@@ -26,17 +23,13 @@
         <div class="container" id="firstPage">
             <div class="searcherClass">
                 <form class="form-inline" id="searchOompaForm">
-                    <div class="input-group">
+                    <div class="input-group float-right">
                         <input type="text" class="form-control" 
                         placeholder="Search" aria-label="oopaName"
-                        name="oompaName" id="oompaName"
-                         aria-describedby="basic-addon1">
-
-                        <div class="input-group-prepend">
-                            <button type="submit" class="btn btn-default btn-sm">
-                                <i class="fas fa-search"></i>
-                            </button>
-                        </div>
+                        name="oompaName" id="oompaName">
+                        <button type="submit" class="btn btn-search">
+                            <img class="img-responsive" src="public/assets/images/ic_search.png"/>
+                        </button>
                     </div>
                 </form>
             </div>
@@ -57,7 +50,7 @@
                             <div class="">
                                 <img class="img-responsive" src="{{image}}">
                             </div>
-                            <h2 class="oompaName">{{first_name}} {{last_name}}</h2>
+                            <h2 class="oompaName" data-id="{{id}}">{{first_name}} {{last_name}}</h2>
                             <div class="">
                                 {{#ifCond gender M}}
                                     Male
@@ -80,13 +73,10 @@
           <div class="container" id="secondPage">
             <script id="oompa-single-template" type="text/x-handlebars-template">
                 <div class="row oompaSingleContentBox">
-                    <div class="col-sm-6 col-md-4 col-lg-4 oopaBox">
-                        <div class="">
-                            <img class="img-responsive" src="{{image}}">
-                        </div>
-                        
+                    <div class="col-sm-12 col-md-8 col-lg-7">
+                        <img class="img-responsive" src="{{image}}">
                     </div>
-                    <div class="col-sm-12 col-md-4 col-lg-4">
+                    <div class="col-sm-12 col-md-4 col-lg-5">
                         <h2 class="oompaName" data-id="{{id}}">{{first_name}} {{last_name}}</h2>
                         <div class="">
                             {{#ifCond gender M}}
@@ -99,7 +89,7 @@
                             {{profession}}
                         </div>
                         <div class="">
-
+                            {{description}}
                         </div>
                     </div>
                 </div>
