@@ -1,0 +1,41 @@
+.navbar {
+    background-color: #c0c0c0 !important;
+    height: 50px;
+}
+
+.navbar-brand {
+    padding: 0px;
+  }
+  .navbar-brand>img {
+    height: 100%;
+    width: auto;
+}
+
+.input-group {
+    border: 1px solid #e0e0e0;
+}
+.input-group {
+    border: none !important;
+}
+.mainTitle {
+    font-size: 30px;
+}
+.mainSubtitle {
+    font-size: 20px;
+}
+
+#oompasContent img {
+    width: 100%;
+    height: auto;;;
+}
+
+.oopaBox {
+    padding-bottom: 30px;
+}
+.oompaContentBox {
+    margin: 0 !important;
+}
+.searcherClass, .main, .navbar-header {
+    padding-right: 15px;
+    padding-left: 15px;
+}

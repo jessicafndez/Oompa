@@ -1,0 +1,109 @@
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Oompa</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+         integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        
+         <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/solid.js" integrity="sha384-+Ga2s7YBbhOD6nie0DzrZpJes+b2K1xkpKxTFFcx59QmVPaSA8c7pycsNaFwUK6l" crossorigin="anonymous"></script>
+         <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/fontawesome.js" integrity="sha384-7ox8Q2yzO/uWircfojVuCQOZl+ZZBg2D2J5nkpLqzH1HY0C1dHlTKIbpRz/LG23c" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="css/index.css"/>
+
+        <script src="dist/app.bundle.js"></script>
+    </head>
+    <body>
+        <nav class="navbar navbar-default">
+            <div class="container">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#">
+                        <img alt="Brand" class="img-responsive" 
+                        src="public/assets/images/logo-umpa-loompa.png">
+                    </a>
+                    <span class="navbar-brand mb-0 h1">Oompa Loompa's Crew</span>
+                </div>
+            </div>
+        </nav>
+        <div class="container" id="firstPage">
+            <div class="searcherClass">
+                <form class="form-inline" id="searchOompaForm">
+                    <div class="input-group">
+                        <input type="text" class="form-control" 
+                        placeholder="Search" aria-label="oopaName"
+                        name="oompaName" id="oompaName"
+                         aria-describedby="basic-addon1">
+
+                        <div class="input-group-prepend">
+                            <button type="submit" class="btn btn-default btn-sm">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="main">
+                <div class="mainTitle">
+                    Find your Oompa Loompa
+                </div>
+                <div class="mainSubtitle">
+                    There are more than 100k
+                </div>
+            </div>
+            <div class="wrapContent">
+                <div class="" id="oompasContent">
+                    <script id="oompa-list-template" type="text/x-handlebars-template">
+                        <div class="row oompaContentBox">
+                        {{#each objects}}
+                        <div class="col-sm-6 col-md-4 col-lg-4 oopaBox">
+                            <div class="">
+                                <img class="img-responsive" src="{{image}}">
+                            </div>
+                            <h2 class="oompaName">{{first_name}} {{last_name}}</h2>
+                            <div class="">
+                                {{#ifCond gender M}}
+                                    Male
+                                {{else}}
+                                    Female
+                                {{/ifCond}}
+                            </div>
+                            <div class="">
+                                {{profession}}
+                            </div>
+                        </div>
+                        {{/each}} 
+                    </div>
+                    </script>
+                    
+                </div>
+            </div>
+          </div>
+
+          <div class="container" id="secondPage">
+            <script id="oompa-single-template" type="text/x-handlebars-template">
+                <div class="row oompaSingleContentBox">
+                    <div class="col-sm-6 col-md-4 col-lg-4 oopaBox">
+                        <div class="">
+                            <img class="img-responsive" src="{{image}}">
+                        </div>
+                        
+                    </div>
+                    <div class="col-sm-12 col-md-4 col-lg-4">
+                        <h2 class="oompaName" data-id="{{id}}">{{first_name}} {{last_name}}</h2>
+                        <div class="">
+                            {{#ifCond gender M}}
+                                Male
+                            {{else}}
+                                Female
+                            {{/ifCond}}
+                        </div>
+                        <div class="">
+                            {{profession}}
+                        </div>
+                        <div class="">
+
+                        </div>
+                    </div>
+                </div>
+            </script>
+          </div>
+    </body>
+</html>
