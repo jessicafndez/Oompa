@@ -4,19 +4,32 @@ $(document).ready(function() {
     var oopasPage = 25;
     var isScrollable = true;
 
-    window.localStorage.clear();
+    //window.localStorage.clear();
 
     var listSaved = localStorage.getItem("oompaList");
     var listSavedJson = "";
-    if((localStorage.getItem("oompaList") === 'undefined') ||
-        localStorage.getItem('oompaList') === null ) {
-        numPages = 1;
-        listSavedJson = getDefaultOpa(numPages);
+
+    console.log("LS: ");
+    console.log(listSaved);
+
+    //primero miramos si tenemos resultados guardados en el buscador
+    if(sessionStorage.getItem('oompaListSearch')) {
+        listSavedJson = JSON.parse(sessionStorage.getItem('oompaListSearch'));
+        var searchName = sessionStorage.getItem('oompaNameSearch');
+        $('#oompaName').val(searchName);
+        paintOompaContent(listSavedJson);
     }
     else {
-        listSavedJson = JSON.parse(listSaved);
-        numPages = listSavedJson.length/oopasPage;
-        paintOompaContent(listSavedJson);
+        if((localStorage.getItem("oompaList") === 'undefined') ||
+            localStorage.getItem('oompaList') === null ) {
+            numPages = 1;
+            listSavedJson = getDefaultOpa(numPages);
+        }
+        else {
+            listSavedJson = JSON.parse(listSaved);
+            numPages = listSavedJson.length/oopasPage;
+            paintOompaContent(listSavedJson);
+        }
     }
 
     $(window).scroll(function(){
@@ -53,6 +66,8 @@ $(document).ready(function() {
                     oompaList = actualList.concat(data.results);
                     oompaList =  JSON.stringify(oompaList);
                 }
+                var currentTime = { "oompaTime" : new Date().getTime()};
+                localStorage.setItem("oompaDate", currentTime);
                 localStorage.setItem("oompaList", oompaList);
                 paintOompaContent(data.results);
                 isScrollable = true;
@@ -110,16 +125,14 @@ $(document).ready(function() {
             }); 
             console.log("A: ");
             console.log(tempResults);   
-            paintOompaSearch(tempResults);
+            paintOompaSearch(tempResults, searchName);
         }
         else {
             console.log("its empty");
         }
     }
 
-    function paintOompaSearch(oompaListSearch) {
-        console.log("mm");
-        console.log(oompaListSearch);
+    function paintOompaSearch(oompaListSearch, searchName) {
         var source = $("#oompa-list-template-search").html();
         var template = Handlebars.compile(source);
         var wrapper  = {objects: oompaListSearch};
@@ -130,10 +143,13 @@ $(document).ready(function() {
             return options.inverse(this);
         });
         var html = template(wrapper);
-       // $('#oompasContentSearch').empty();
 
-       console.log("--");
-       $('.oompaContentBox').empty();
+        //queremos guardar los resultados de la busqueda para
+        //cuando volvamos al 'index'?
+        sessionStorage.setItem("oompaListSearch", oompaListSearch);
+        sessionStorage.setItem('oompaNameSearch', searchName);
+
+        $('.oompaContentBox').empty();
         $('#oompasContentSearch').append(html);    
     }
 
