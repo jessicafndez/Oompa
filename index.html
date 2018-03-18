@@ -34,10 +34,10 @@
                 </form>
             </div>
             <div class="main">
-                <div class="mainTitle">
+                <div class="mainTitle text-center">
                     Find your Oompa Loompa
                 </div>
-                <div class="mainSubtitle">
+                <div class="mainSubtitle text-center">
                     There are more than 100k
                 </div>
             </div>
@@ -50,16 +50,18 @@
                             <div class="">
                                 <img class="img-responsive" src="{{image}}">
                             </div>
-                            <h2 class="oompaName" data-id="{{id}}">{{first_name}} {{last_name}}</h2>
-                            <div class="">
-                                {{#ifCond gender M}}
-                                    Male
-                                {{else}}
-                                    Female
-                                {{/ifCond}}
-                            </div>
-                            <div class="">
-                                {{profession}}
+                            <div class="oompaInfo">
+                                <div class="oompaName pointer" data-id="{{id}}">{{first_name}} {{last_name}}</div>
+                                <div class="oompaGender">
+                                    {{#ifCond gender M}}
+                                        Male
+                                    {{else}}
+                                        Female
+                                    {{/ifCond}}
+                                </div>
+                                <div class="oompaProfession">
+                                    {{profession}}
+                                </div>
                             </div>
                         </div>
                         {{/each}} 
@@ -77,18 +79,18 @@
                         <img class="img-responsive" src="{{image}}">
                     </div>
                     <div class="col-sm-12 col-md-4 col-lg-5">
-                        <h2 class="oompaName" data-id="{{id}}">{{first_name}} {{last_name}}</h2>
-                        <div class="">
+                        <div class="oompaNameSingle" data-id="{{id}}">{{first_name}} {{last_name}}</div>
+                        <div class="oompaGenderSingle">
                             {{#ifCond gender M}}
                                 Male
                             {{else}}
                                 Female
                             {{/ifCond}}
                         </div>
-                        <div class="">
+                        <div class="oompaProfessionSingle">
                             {{profession}}
                         </div>
-                        <div class="">
+                        <div class="oompaDescription">
                             {{description}}
                         </div>
                     </div>

@@ -93,7 +93,9 @@ $(document).ready(function() {
             return options.inverse(this);
         });
         var html = template(wrapper);
-        $('#oompasContent').append(html);
+        $('#oompasContent').append(html).show('slow');
+        var t = 100;
+        $(html).delay(t).fadeIn('slow');
     }
 
     function paintOompaTemp(oompaList) {
@@ -185,13 +187,13 @@ $(document).ready(function() {
     });
 
     $(document).on('click', '.oompaName', function () {
-        // your function here
         console.log("yeppp");
         var oompaId = $(this).attr('data-id');
         $('#firstPage').hide();
         $('#secondPage').show();
         console.log()
-        window.history.pushState('page2', 'Title', oompaId);
+      //  window.history.pushState({urlPath:'/single_page.html'}, 'Oompa View', oompaId);
+      history.replaceState({data: 'elephant'}, 'New Title')
         loadOompa(oompaId)
     });
 
@@ -234,5 +236,13 @@ $(document).ready(function() {
         var html = template(oompa);
         $('#secondPage').html(html); 
     }
+
+    window.onpopstate = function (event) {
+        if (history.state && history.state.id === 'homepage') {
+            // Render new content for the hompage
+
+            console.log("heyyyy");
+        }
+    };
 
 });

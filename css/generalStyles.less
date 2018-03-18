@@ -3,6 +3,11 @@
 .navbar {
     background-color: @navBarColor !important;
     height: 50px;
+    padding-bottom: 12px;
+    padding-top: 12px;
+    & .container {
+        display: block !important;
+    }
 }
 
 .navbar-brand {
@@ -11,4 +16,11 @@
   .navbar-brand>img {
     height: 100%;
     width: auto;
+}
+.form-control:focus {
+    box-shadow: none;
+}
+
+.pointer {
+    cursor: pointer;
 }
