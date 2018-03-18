@@ -5,7 +5,8 @@
   font-size: 30px;
   color: #606060;
 }
-#oompasContent img {
+#oompasContent img,
+#oompasContentSearch img {
   width: 100%;
   height: auto;
 }
@@ -71,6 +72,9 @@
 }
 .oompaInfo {
   padding-top: 15px;
+}
+.searchContent {
+  display: none;
 }
 .oompaNameSingle {
   font-size: 15px;

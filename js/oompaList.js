@@ -20,16 +20,19 @@ $(document).ready(function() {
     }
 
     $(window).scroll(function(){
-        if(isScrollable) {
-            var wrap = $('#oompasContent')[0];
-            var contentHeight = wrap.offsetHeight;
-            var yOffset = window.pageYOffset;
-            var y = yOffset + window.innerHeight;
-            if(y >= contentHeight) {
-                numPages++;
-                getDefaultOpa(numPages);
-            }
-        } 
+        if(!$('.searchContent').is(':visible') &&
+            isScrollable) {
+                if(isScrollable) {
+                    var wrap = $('#oompasContent')[0];
+                    var contentHeight = wrap.offsetHeight;
+                    var yOffset = window.pageYOffset;
+                    var y = yOffset + window.innerHeight;
+                    if(y >= contentHeight) {
+                        numPages++;
+                        getDefaultOpa(numPages);
+                    }
+                }
+        }
     });
 
     function getDefaultOpa(page) {
@@ -73,21 +76,6 @@ $(document).ready(function() {
         $(html).delay(t).fadeIn('slow');
     }
 
-    function paintOompaTemp(oompaList) {
-        var source = $("#oompa-list-template").html();
-        var template = Handlebars.compile(source);
-        var wrapper  = {objects: oompaList};
-        Handlebars.registerHelper('ifCond', function(v1, v2, options) {
-            if(v1 === v2) {
-                return options.fn(this);
-            }
-            return options.inverse(this);
-        });
-        var html = template(wrapper);
-        $('.oompaContentBox').html(html); 
-    }
-
-
     $('#oompaName').bind("change paste keyup", function() {
         var searchName = $('#oompaName').val().toLowerCase();
         paintSearcherResults(searchName);
@@ -99,8 +87,14 @@ $(document).ready(function() {
         paintSearcherResults(searchName);
     });
 
-    function paintSearcherResults(name) {
+    function paintSearcherResults(searchName) {
+        console.log("S: " + searchName);
         if((localStorage.getItem("oompaList") !== null)) {
+
+            //search templates
+            $('.searchContent').css('display', 'block');
+            $('.wrapContent').css('display', 'none');
+
             var actualList = localStorage.getItem("oompaList");
             var a = JSON.parse(actualList);
             var tempResults = [];
@@ -108,83 +102,48 @@ $(document).ready(function() {
                 var name = element['first_name'].toLowerCase();
                 var lastName = element['last_name'].toLowerCase();
                 var profession = element['profession'].toLowerCase();
-
-                console.log("profession: " + profession);
                
-               searchName = searchName;
-              // console.log(name + "--" + searchName);
-               
-               if(name.includes(searchName) || lastName.includes(searchName) ||
-               profession.includes(searchName)) {
-                    console.log("found: ");
-                    console.log(element);
-                    tempResults.push(element);
+                if(name.includes(searchName) || lastName.includes(searchName) ||
+                    profession.includes(searchName)) {
+                        tempResults.push(element);
                }
-               else {
-               //    console.log("Not found");
-               }
-            });    
-            paintOompaTemp(tempResults);
-        }
-    }
-
-    $(document).on('click', '.oompaName', function () {
-        console.log("yeppp");
-        var oompaId = $(this).attr('data-id');
-        $('#firstPage').hide();
-        $('#secondPage').show();
-        console.log()
-       window.history.pushState({urlPath:'/single_page.html'}, 'Oompa View', oompaId);
-    //  history.replaceState({data: 'elephant'}, 'New Title')
-        loadOompa(oompaId)
-    });
-
-    function loadOompa(oompaId) {
-        var oompa = localStorage.getItem("oompaId"+oompaId);
-        console.log("oo_");
-        console.log(oompa);
-        console.log(oompaId);
-        if((oompa != null) || (oompa != 'undefined')) {
-            $.ajax({
-                type     : "GET",
-                cache    : false,
-                url      : 'https://2q2woep105.execute-api.eu-west-1.amazonaws.com/napptilus/oompa-loompas/'+oompaId,
-                success  : function(data) {
-                    console.log(data);
-                    oompa =  JSON.stringify(data);
-                    localStorage.setItem("oompaId"+oompaId, oompa);
-
-                    console.log("daata: " + data);
-                    paintOompa(data);
-                },         
-            });
+            }); 
+            console.log("A: ");
+            console.log(tempResults);   
+            paintOompaSearch(tempResults);
         }
         else {
-            paintOompa(oompa);
-        }    
+            console.log("its empty");
+        }
     }
 
-    function paintOompa(oompa) {
-        console.log("oompa List");
-        console.log(oompa);
-        var source = $("#oompa-single-template").html();
+    function paintOompaSearch(oompaListSearch) {
+        console.log("mm");
+        console.log(oompaListSearch);
+        var source = $("#oompa-list-template-search").html();
         var template = Handlebars.compile(source);
+        var wrapper  = {objects: oompaListSearch};
         Handlebars.registerHelper('ifCond', function(v1, v2, options) {
             if(v1 === v2) {
                 return options.fn(this);
             }
             return options.inverse(this);
         });
-        var html = template(oompa);
-        $('#secondPage').html(html); 
+        var html = template(wrapper);
+       // $('#oompasContentSearch').empty();
+
+       console.log("--");
+       $('.oompaContentBox').empty();
+        $('#oompasContentSearch').append(html);    
     }
 
-    window.onpopstate = function (event) {
-        if (history.state && history.state.id === 'homepage') {
-            // Render new content for the hompage
+    $(document).on('click', '.oompaName', function () {
+        var oompaId = $(this).attr('data-id');
+        $('#firstPage').hide();
+        $('#secondPage').show();
+        window.history.pushState({urlPath:'/'}, 'Oompa Single View', oompaId);
+        loadOompa(oompaId)
+    });
 
-            console.log("heyyyy");
-        }
-    };
 
 });

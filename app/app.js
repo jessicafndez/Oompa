@@ -1,9 +1,9 @@
-console.log('Hello from Webpack');
-
 global.jQuery = global.$ = require('jquery');
 import 'bootstrap/dist/js/bootstrap';
 
-import '../js/opaApi.js';
+//Scripts
+import '../js/oompaSingle.js';
+import '../js/oompaList.js';
 
 
 //Styles

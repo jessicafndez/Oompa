@@ -51,7 +51,7 @@ const config = {
       jQuery: 'jquery',
       'window.jQuery': 'jquery',
       Popper: ['popper.js', 'default'],   
-      Handlebars: 'handlebars'       
+      Handlebars: 'handlebars'   
     })
   ],
   node: {

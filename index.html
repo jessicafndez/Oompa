@@ -6,7 +6,8 @@
          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
         
         <link rel="stylesheet" href="dist/app.bundle.css"/>
-        <script src="dist/app.bundle.js"></script>
+
+        <base href="/Oompa/" >
     </head>
     <body>
         <nav class="navbar navbar-default">
@@ -20,6 +21,7 @@
                 </div>
             </div>
         </nav>
+
         <div class="container" id="firstPage">
             <div class="searcherClass">
                 <form class="form-inline" id="searchOompaForm">
@@ -42,8 +44,35 @@
                 </div>
             </div>
             <div class="wrapContent">
-                <div class="" id="oompasContent">
+                <div class="row" id="oompasContent">
                     <script id="oompa-list-template" type="text/x-handlebars-template">
+                        {{#each objects}}
+                        <div class="col-sm-6 col-md-4 col-lg-4 oopaBox">
+                            <div class="">
+                                <img class="img-responsive" src="{{image}}">
+                            </div>
+                            <div class="oompaInfo">
+                                <div class="oompaName pointer" data-id="{{id}}">{{first_name}} {{last_name}}</div>
+                                <div class="oompaGender">
+                                    {{#ifCond gender M}}
+                                        Male
+                                    {{else}}
+                                        Female
+                                    {{/ifCond}}
+                                </div>
+                                <div class="oompaProfession">
+                                    {{profession}}
+                                </div>
+                            </div>
+                        </div>
+                        {{/each}} 
+                    </script>
+                </div>
+            </div>
+
+            <div class="searchContent">
+                <div class="row" id="oompasContentSearch">
+                    <script id="oompa-list-template-search" type="text/x-handlebars-template">
                         <div class="row oompaContentBox">
                         {{#each objects}}
                         <div class="col-sm-6 col-md-4 col-lg-4 oopaBox">
@@ -66,13 +95,15 @@
                         </div>
                         {{/each}} 
                     </div>
+                </div>
                     </script>
-                    
                 </div>
             </div>
+
           </div>
 
           <div class="container" id="secondPage">
+               
             <script id="oompa-single-template" type="text/x-handlebars-template">
                 <div class="row oompaSingleContentBox">
                     <div class="col-sm-12 col-md-8 col-lg-7">
@@ -98,4 +129,7 @@
             </script>
           </div>
     </body>
+    
+    <script src="dist/app.bundle.js"></script>
+
 </html>
