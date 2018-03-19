@@ -16,15 +16,15 @@ Oompa App
             Por eso dejo activa la versión de funcionos/jQuery, que al
             ser las variables mas directas no tenia problemas de sincronismo.
 
-Notas sobre la versión:
+Notas sobre la versión:__
     - No sabia si el buscador tenia que mostrar instantaneamente los
-        resultados del input, por tanto hay 2 versiones:
-            - actualiza lista con cada letra que entramos.
-            - actualiza lista solo al apretar boton de buscador.
+        resultados del input, por tanto hay 2 versiones:__
+            - actualiza lista con cada letra que entramos.__
+            - actualiza lista solo al apretar boton de buscador.__
         Actualmente estan las 2 activas, a elegir la correcta o la 
-        mejor, solo hace falta desactivar una de las 2 funciones.
+        mejor, solo hace falta desactivar una de las 2 funciones.__
     - Hay un boton para subir al principio de la pagina de la
-        lista de oompas. 
+        lista de oompas. __
     - Para ir a la vista del oompa, apretamos en el nombre del oompa,
         aunque tambien se podria implementar al clicar imagen.
         - Para navegar a la vista del oompa en solitario, utilizo 
