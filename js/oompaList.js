@@ -1,38 +1,52 @@
 $(document).ready(function() {
-    // call for first api
-    var numPages = "";
-    var oopasPage = 25;
-    var isScrollable = true;
+    //variables iniciales
+    var numPages = ""; //paginas cargadas
+    var oopasPage = 25; //elementos por pagina
+    var isScrollable = true; //no scroll mientras ajax is loading!
 
     //window.localStorage.clear();
+    //window.sessionStorage.clear();
 
     var listSaved = localStorage.getItem("oompaList");
     var listSavedJson = "";
 
-    console.log("LS: ");
-    console.log(listSaved);
-
     //primero miramos si tenemos resultados guardados en el buscador
     if(sessionStorage.getItem('oompaListSearch')) {
+        var a = sessionStorage.getItem('oompaListSearch');
         listSavedJson = JSON.parse(sessionStorage.getItem('oompaListSearch'));
         var searchName = sessionStorage.getItem('oompaNameSearch');
         $('#oompaName').val(searchName);
-        paintOompaContent(listSavedJson);
+        paintOompaSearch(listSavedJson, searchName);
     }
+    //este es el bloque por defecto
     else {
         if((localStorage.getItem("oompaList") === 'undefined') ||
             localStorage.getItem('oompaList') === null ) {
             numPages = 1;
-            listSavedJson = getDefaultOpa(numPages);
+            listSavedJson = getDefaultOpa(numPages); //to get de ajax
         }
         else {
-            listSavedJson = JSON.parse(listSaved);
+            //significa que si k tenemos datos de sesion guardados, miramos tiempo
+            var lastUpdate = localStorage.getItem("oompaDate");
+            var now = (new Date()).getTime();
+       
+            //1 dia:
+            var day = 1000 * 60 * 60 * 24;
+            if((now - lastUpdate) > day) {
+                listSavedJson = getDefaultOpa(numPages); //recargamos la lista por la pagina 1
+            }
+            else {
+                console.log(listSaved);
+                listSavedJson = JSON.parse(listSaved);
+            }
+            //por si tenemos una lista larga, al hacer el scroll necesitamos el numero de pagina para el get
             numPages = listSavedJson.length/oopasPage;
             paintOompaContent(listSavedJson);
         }
     }
 
     $(window).scroll(function(){
+        //en el bloque de busqueda no queremos que sea scroll, verdad?
         if(!$('.searchContent').is(':visible') &&
             isScrollable) {
                 if(isScrollable) {
@@ -46,14 +60,23 @@ $(document).ready(function() {
                     }
                 }
         }
+
+        //esto es para el boton de 'goTop'
+        if ($(this).scrollTop() > 100) {
+            $('.scrollToTop').fadeIn();
+        } else {
+            $('.scrollToTop').fadeOut();
+        }
     });
 
+    //normal ajax get
     function getDefaultOpa(page) {
         $.ajax({
             type     : "GET",
             cache    : false,
             url      : 'https://2q2woep105.execute-api.eu-west-1.amazonaws.com/napptilus/oompa-loompas?page='+page,
             beforeSend: function() {
+                //paramos el scroll mientras hace la consulta
                 if(isScrollable) {
                     isScrollable = false;
                 }
@@ -70,11 +93,14 @@ $(document).ready(function() {
                 localStorage.setItem("oompaDate", currentTime);
                 localStorage.setItem("oompaList", oompaList);
                 paintOompaContent(data.results);
-                isScrollable = true;
-            },         
+            },    
+            complete: function () {
+                isScrollable = true; //al finalizar ya es scroll active
+            }     
         });
     }  
 
+    //pintado de la lista de oompas
     function paintOompaContent(oompaList) {
         var source = $("#oompa-list-template").html();
         var template = Handlebars.compile(source);
@@ -87,26 +113,27 @@ $(document).ready(function() {
         });
         var html = template(wrapper);
         $('#oompasContent').append(html).show('slow');
-        var t = 100;
-        $(html).delay(t).fadeIn('slow');
+        //queremos que la pinte poco a poco?
+        $(html).delay(100).fadeIn('slow');
     }
 
+    //cada vez que se pulsa una tecla actualiza la busqueda
     $('#oompaName').bind("change paste keyup", function() {
         var searchName = $('#oompaName').val().toLowerCase();
-        paintSearcherResults(searchName);
+        searcherResults(searchName);
     });
 
+    //busqueda con el boton de busqueda
     $("#searchOompaForm").submit(function(e) {
         e.preventDefault();
         var searchName = $('#oompaName').val().toLowerCase();
-        paintSearcherResults(searchName);
+        searcherResults(searchName);
     });
 
-    function paintSearcherResults(searchName) {
-        console.log("S: " + searchName);
+    //por si queremos una plantilla diferente para los resultados
+    function searcherResults(searchName) {
         if((localStorage.getItem("oompaList") !== null)) {
-
-            //search templates
+            //search templates ON
             $('.searchContent').css('display', 'block');
             $('.wrapContent').css('display', 'none');
 
@@ -122,16 +149,12 @@ $(document).ready(function() {
                     profession.includes(searchName)) {
                         tempResults.push(element);
                }
-            }); 
-            console.log("A: ");
-            console.log(tempResults);   
+            });  
             paintOompaSearch(tempResults, searchName);
-        }
-        else {
-            console.log("its empty");
         }
     }
 
+    
     function paintOompaSearch(oompaListSearch, searchName) {
         var source = $("#oompa-list-template-search").html();
         var template = Handlebars.compile(source);
@@ -146,19 +169,26 @@ $(document).ready(function() {
 
         //queremos guardar los resultados de la busqueda para
         //cuando volvamos al 'index'?
-        sessionStorage.setItem("oompaListSearch", oompaListSearch);
+        sessionStorage.setItem("oompaListSearch", JSON.stringify(oompaListSearch));
         sessionStorage.setItem('oompaNameSearch', searchName);
 
         $('.oompaContentBox').empty();
         $('#oompasContentSearch').append(html);    
     }
 
+    //pasamos a vista del oompa
     $(document).on('click', '.oompaName', function () {
         var oompaId = $(this).attr('data-id');
         $('#firstPage').hide();
         $('#secondPage').show();
         window.history.pushState({urlPath:'/'}, 'Oompa Single View', oompaId);
         loadOompa(oompaId)
+    });
+
+    //para que suba de forma progresiva
+    $('.scrollToTop').click(function () {
+        $("html, body").animate({ scrollTop: 0 }, 600);
+        return false;
     });
 
 

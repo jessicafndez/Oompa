@@ -122,3 +122,23 @@
 .pointer {
   cursor: pointer;
 }
+.scrollToTop {
+  width: 35px;
+  height: 35px;
+  padding: 10px;
+  text-align: center;
+  font-weight: bold;
+  color: white;
+  text-decoration: none;
+  position: fixed;
+  bottom: 60px;
+  right: 40px;
+  display: none;
+  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABmJLR0QA/wD/AP+gvaeTAAAAuklEQVQ4jc3SvWoCQRTF8SUGVMj6BG4K30BtJIJPbfzoRG19AU2TJt0KKtj+UugSmV3NIgie8p7/uTN37kTRUwuvqNwbruETQ1TvCY/8aYRa2XAdE3mNUf8v/IZZQTjT9GqTgmvDET9BLT8OYiwCcI8+3vEVeHPEWbiBZQDs8HFxQFLQZIlG5LSqSx0wKBixhe+AHUboIj0XUnRuPHKCzZndopsZHazRvrmmE9vECr3QKP3b8FKWfbx+AU+QbAqooqjEAAAAAElFTkSuQmCC);
+  background-color: #c0c0c0;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.scrollToTop:hover {
+  text-decoration: none;
+}
