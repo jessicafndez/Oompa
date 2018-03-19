@@ -16,9 +16,9 @@ Oompa App
             Por eso dejo activa la versión de funcionos/jQuery, que al
             ser las variables mas directas no tenia problemas de sincronismo.
 
-Notas sobre la versión:__
+Notas sobre la versión:<br />
     - No sabia si el buscador tenia que mostrar instantaneamente los
-        resultados del input, por tanto hay 2 versiones:__
+        resultados del input, por tanto hay 2 versiones:<br />
             - actualiza lista con cada letra que entramos.__
             - actualiza lista solo al apretar boton de buscador.__
         Actualmente estan las 2 activas, a elegir la correcta o la 
